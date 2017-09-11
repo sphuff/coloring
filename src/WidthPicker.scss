@@ -1,0 +1,46 @@
+#width-picker {
+    width: 200px;
+    height: 150px;
+    border:5px #8F8787 dashed;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .width-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+
+        $width-diameter: 30px;
+        .width {
+            width: $width-diameter;
+            height: $width-diameter;
+            border-radius: $width-diameter/2;
+            background-color: black;
+        }
+
+        #width1 {
+            width: $width-diameter/2;
+            height: $width-diameter/2;
+            border-radius: $width-diameter/4;
+        }
+
+        #width3 {
+            width: $width-diameter*1.2;
+            height: $width-diameter*1.2;
+            border-radius: $width-diameter*0.6;
+        }
+
+        #width4 {
+            width: $width-diameter*1.4;
+            height: $width-diameter*1.4;
+            border-radius: $width-diameter*0.7;
+        }
+        
+    }
+}

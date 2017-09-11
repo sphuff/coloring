@@ -1,0 +1,66 @@
+.blob-container {
+  top: 0px;
+  right: 0px;
+  margin-top: 20px;
+  margin-right: 40px;
+  position: absolute;
+  height: 250px;
+  width: 300px;
+  text-align: center; }
+
+.blob-count-container {
+  z-index: 1 !important;
+  position: absolute;
+  margin-left: 100px;
+  margin-top: 50px; }
+  .blob-count-container h1, .blob-count-container h3 {
+    margin: 0px;
+    color: white; }
+  .blob-count-container h1 {
+    font-size: 64px; }
+
+.blobs {
+  height: 100%;
+  width: 100%; }
+
+.blob {
+  position: absolute;
+  background-color: #A6E4E7;
+  height: 200px;
+  width: 200px;
+  border-radius: 100px;
+  animation: rotate 3s linear infinite;
+  -webkit-animation: rotate 3s linear infinite; }
+
+@keyframes rotate-left {
+  0% {
+    transform: rotate(0deg) scale(1) skewX(0deg); }
+  50% {
+    transform: rotate(-180deg) scale(0.8) skewX(5deg); }
+  100% {
+    transform: rotate(-360deg) scale(1) skewX(0deg); } }
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg) scale(1) skewX(0deg);
+    top: 10px; }
+  50% {
+    top: -10px;
+    transform: rotate(180deg) scale(1.2) skewX(-10deg); }
+  100% {
+    top: 0px;
+    transform: rotate(360deg) scale(1) skewX(0deg); } }
+.blob:nth-child(1) {
+  margin-left: 50px;
+  margin-top: 25px; }
+
+.blob:nth-child(2) {
+  margin-top: 25px;
+  margin-left: 25px;
+  animation: rotate-left 3s linear infinite;
+  -webkit-animation: rotate-left 3s linear infinite; }
+
+.blob:nth-child(3) {
+  margin-top: 10px;
+  margin-left: 100px;
+  animation: rotate-left 3s linear infinite;
+  -webkit-animation: rotate-left 3s linear infinite; }

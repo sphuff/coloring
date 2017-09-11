@@ -1,0 +1,98 @@
+import React, {Component} from 'react';
+import './Easel.css';
+import uuid from 'uuid';
+
+class Easel extends Component {
+
+    constructor(props) {
+        super(props);
+        this.context = null;
+
+        this.currentRecord = null;
+        this.currentId = null;
+        this.currentPath = []
+        this.allPaths = [];
+
+        var record = this.props.deepstreamRecord;
+        record.whenReady(record => {
+            console.log('record ready');
+            record.subscribe(this.changeContextLocally.bind(this), true);
+        });
+    }
+
+    changeContextLocally(context) {
+        console.log('change context');
+       for (var pathID in context) {
+           if(this.allPaths[pathID] != null && (this.allPaths[pathID].length == context[pathID].length)) {
+               // already have all the path information
+                continue;
+           }
+           this.context.beginPath();
+           this.context.strokeStyle = context[pathID][0].color;
+           this.context.lineWidth = context[pathID][0].lineWidth;
+           context[pathID].forEach(function(position) {
+                this.context.lineTo(position.x, position.y);
+                this.context.stroke();
+            }, this);
+       }
+       this.allPaths = context;
+    }
+    
+    touchStart(event) {
+        console.log('Touch');
+        this.props.resetTimer();
+        const xPos = event.touches[0].clientX;
+        const yPos = event.touches[0].clientY;
+
+        const id = uuid();
+        this.currentPath = [];
+        this.currentPath.push({
+            x : xPos,
+            y : yPos,
+            color : this.props.selectedColor,
+            lineWidth : this.props.lineWidth
+        });
+        this.currentId = id;
+        this.props.deepstreamRecord.set(id, this.currentPath);
+    }
+
+    touchMove(event) {
+        const xPos = event.touches[0].clientX;
+        const yPos = event.touches[0].clientY;
+        this.currentPath.push({
+            x : xPos,
+            y : yPos,
+            color : this.props.selectedColor,
+            lineWidth : this.props.lineWidth
+        });
+        this.props.deepstreamRecord.set(this.currentId, this.currentPath);
+    }
+
+    touchEnd(event) {
+        console.log('End');
+    }
+
+    componentDidMount() {
+        console.log('easel mount');
+        var c=document.getElementById("canvas");
+        var ctx=c.getContext("2d");
+        this.context = ctx;
+
+        var img = new Image();
+        img.src = this.props.currentImgPath;
+        
+        img.onload = function() {
+            ctx.drawImage(img, 0, 200);
+            // ctx.drawImage(img, 0, 0, img.width, img.height, 0, 80, img.width, img.height);
+        }
+    }
+    render() {
+        return (
+            <div id="easel" onTouchStart={this.touchStart.bind(this)} onTouchEnd={this.touchEnd.bind(this)} onTouchMove={this.touchMove.bind(this)}>
+                <canvas id="canvas" width="1080px" height="1536px"></canvas>
+            </div>
+        )
+    }
+}
+
+export default Easel;

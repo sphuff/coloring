@@ -1,0 +1,33 @@
+#width-picker {
+  width: 200px;
+  height: 150px;
+  border: 5px #8F8787 dashed;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; }
+  #width-picker .width-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center; }
+    #width-picker .width-container .width {
+      width: 30px;
+      height: 30px;
+      border-radius: 15px;
+      background-color: black; }
+    #width-picker .width-container #width1 {
+      width: 15px;
+      height: 15px;
+      border-radius: 7.5px; }
+    #width-picker .width-container #width3 {
+      width: 36px;
+      height: 36px;
+      border-radius: 18px; }
+    #width-picker .width-container #width4 {
+      width: 42px;
+      height: 42px;
+      border-radius: 21px; }

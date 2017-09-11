@@ -1,0 +1,26 @@
+#easel {
+    overflow: hidden;
+    canvas {
+        // width: 100%;
+        // width: 1080px;
+        // height: 1526px;
+        // height: 100%;
+
+        // display: flex;
+        // justify-content: center;
+        // align-items: center; 
+        overflow: hidden;
+    }
+
+    svg, object, img {
+        vertical-align: top;
+        max-width: 60vw;
+        margin-left: 2%;
+        margin-top: 80px;
+        // width: 100%;
+    }
+}
+
+path {
+    fill: none;
+  }

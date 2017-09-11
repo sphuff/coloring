@@ -1,0 +1,12 @@
+#easel {
+  overflow: hidden; }
+  #easel canvas {
+    overflow: hidden; }
+  #easel svg, #easel object, #easel img {
+    vertical-align: top;
+    max-width: 60vw;
+    margin-left: 2%;
+    margin-top: 80px; }
+
+path {
+  fill: none; }
