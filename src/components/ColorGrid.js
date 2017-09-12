@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './ColorGrid.css';
-import Color from './Colorv2';
-import {getRandomColor} from './utils';
+import Color from './Color';
+import {getRandomColor} from '../utils';
 
 class ColorGrid extends Component {
     constructor(props) {

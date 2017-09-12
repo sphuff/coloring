@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import ColorWheel from './ColorWheelv2';
-import Easel from './Easel';
-import UserBlob from './UserBlob';
-import ColorGrid from './ColorGrid';
-import WidthPicker from './WidthPicker';
+import Easel from './components/Easel';
+import UserBlob from './components/UserBlob';
+import ColorGrid from './components/ColorGrid';
+import WidthPicker from './components/WidthPicker';
 
 const deepstream = require( 'deepstream.io-client-js' );
 const TIMER_PERIOD = 30000;
@@ -82,7 +80,7 @@ class App extends Component {
     });
     this.state.userIsLoggedOut = true;
     clearTimeout(this.state.timer);
-    // this.state.timer = null;
+    
     this.setState({
       timer : null
     });
@@ -108,27 +106,27 @@ class App extends Component {
     });
   }
 
-  changeContextLocally(context) {
+  changeContextLocally(paths) {
     console.log('change context');
-    for (var pathID in context) {
-        if(this.state.paths[pathID] != null && (this.state.paths[pathID].length == context[pathID].length)) {
+    for (var pathID in paths) {
+        if(this.state.paths[pathID] != null && (this.state.paths[pathID].length == paths[pathID].length)) {
             // already have all the path information
               continue;
         }
         this.state.context.beginPath();
-        this.state.context.strokeStyle = context[pathID][0].color;
-        this.state.context.lineWidth = context[pathID][0].lineWidth;
-        context[pathID].forEach(function(position) {
+        this.state.context.strokeStyle = paths[pathID][0].color;
+        this.state.context.lineWidth = paths[pathID][0].lineWidth;
+        paths[pathID].forEach(function(position) {
               this.state.context.lineTo(position.x, position.y);
               this.state.context.stroke();
           }, this);
     }
     this.setState({
-      paths: context
+      paths: paths
     });
   }
   
-  changeContext(context) {
+  setContext(context) {
     this.setState({
       context: context
     });
@@ -182,7 +180,6 @@ class App extends Component {
   }
 
   render() {
-    var colors = ['red', 'pink', 'yellow', 'orange', 'cyan', 'blue', 'palegreen', 'grey', 'lavendar', 'crimson', 'navy', 'darkgreen'];
     const modeButton = (
       <button id="mode-button" onClick={this.changeMode.bind(this)}>
         <img id="svg" src={this.state.modeImagePath} style={{fill:'#A6E4E7'}}/>
@@ -193,7 +190,7 @@ class App extends Component {
         <div>
           <div className="top-container">
             {modeButton}
-            <Easel selectedColor={this.state.selectedColor} changeContext={this.changeContext.bind(this)} lineWidth={this.state.lineWidth} currentCanvasImagePath={this.state.currentCanvasImagePath} deepstreamRecord={this.state.deepstreamRecord} resetTimer={this.resetTimer.bind(this)} changeContextLocally={this.changeContextLocally.bind(this)}f/>
+            <Easel selectedColor={this.state.selectedColor} setContext={this.setContext.bind(this)} lineWidth={this.state.lineWidth} currentCanvasImagePath={this.state.currentCanvasImagePath} deepstreamRecord={this.state.deepstreamRecord} resetTimer={this.resetTimer.bind(this)} changeContextLocally={this.changeContextLocally.bind(this)}f/>
             <UserBlob numUsers={this.state.numUsers} />
           </div>
           <div className="bottom-container">

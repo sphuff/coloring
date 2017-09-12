@@ -5,7 +5,7 @@ import $ from 'jquery';
 var timeout = null;
 const colorWidth = 80;
 
-class Colorv2 extends Component {
+class Color extends Component {
     constructor(props) {
         super(props);
         this.elemId = "color" + this.props.index;
@@ -29,4 +29,4 @@ class Colorv2 extends Component {
     }
 }
 
-export default Colorv2;
+export default Color;

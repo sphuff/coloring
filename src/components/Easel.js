@@ -19,24 +19,6 @@ class Easel extends Component {
             record.subscribe(this.props.changeContextLocally, true);
         });
     }
-
-    // changeContextLocally(context) {
-    //     console.log('change context');
-    //    for (var pathID in context) {
-    //        if(this.allPaths[pathID] != null && (this.allPaths[pathID].length == context[pathID].length)) {
-    //            // already have all the path information
-    //             continue;
-    //        }
-    //        this.context.beginPath();
-    //        this.context.strokeStyle = context[pathID][0].color;
-    //        this.context.lineWidth = context[pathID][0].lineWidth;
-    //        context[pathID].forEach(function(position) {
-    //             this.context.lineTo(position.x, position.y);
-    //             this.context.stroke();
-    //         }, this);
-    //    }
-    //    this.allPaths = context;
-    // }
     
     touchStart(event) {
         console.log('Touch');
@@ -87,30 +69,8 @@ class Easel extends Component {
             }
         }
 
-        this.props.changeContext(ctx);
+        this.props.setContext(ctx);
     }
-
-    // changeMode() {
-    //     // add image
-    //     if (this.props.currentCanvasImagePath) {
-    //         var img = new Image();
-    //         img.src = this.props.currentCanvasImagePath;
-            
-    //         img.onload = function() {
-    //             this.context.drawImage(img, 0, 200);
-    //         }
-    //     } else /* remove image */ {
-    //         var pathsArrCopy = [];
-    //         for (var pathID in this.allPaths) {
-    //             this.allPaths.forEach(function(position) {
-    //                 pathsArrCopy[pathID].push(position);
-    //             }, this);
-    //         }
-    //         this.allPaths = null;
-    //         this.context.clearRect(0, 0, this.context.width, this.context.height);
-    //         this.changeContextLocally(pathsArrCopy);
-    //     }
-    // }
 
     render() {
         console.log('easel render');
