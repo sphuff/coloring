@@ -35,6 +35,16 @@
   border-radius: 25px;
 }
 
+#mode-button {
+  height: 150px;
+  width: 150px;
+  position: absolute;
+  margin: 40px 0px 0px 40px;
+} 
+#mode-button > img {
+  width: 80%;
+}
+
 .top-container {
   width: 100vw;
   height: 80vh;

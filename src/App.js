@@ -21,7 +21,10 @@ class App extends Component {
     var state = {
       selectedColor: "#72C8B4",
       lineWidth: 5,
-      currentImgPath: './img/floral-1801489.svg',
+      paths: [],
+      currentCanvasImagePath: './img/floral-1801489.svg',
+      modeImagePath: './img/pen.svg',
+      isColoring: true,
       deepstreamRecord: record,
       dsClient: dsClient,
       context: {},
@@ -105,20 +108,97 @@ class App extends Component {
     });
   }
 
+  changeContextLocally(context) {
+    console.log('change context');
+    for (var pathID in context) {
+        if(this.state.paths[pathID] != null && (this.state.paths[pathID].length == context[pathID].length)) {
+            // already have all the path information
+              continue;
+        }
+        this.state.context.beginPath();
+        this.state.context.strokeStyle = context[pathID][0].color;
+        this.state.context.lineWidth = context[pathID][0].lineWidth;
+        context[pathID].forEach(function(position) {
+              this.state.context.lineTo(position.x, position.y);
+              this.state.context.stroke();
+          }, this);
+    }
+    this.setState({
+      paths: context
+    });
+  }
+  
+  changeContext(context) {
+    this.setState({
+      context: context
+    });
+  }
+
+  changeMode() {
+    const newCanvasImagePath = this.state.isColoring ? null : './img/floral-1801489.svg';
+    const newModeImagePath = this.state.isColoring ?  './img/brush.svg' : './img/pen.svg';
+    var self = this;
+
+    // draw image
+    if (newCanvasImagePath) {
+      console.log('draw image');
+      var img = new Image();
+      img.src = newCanvasImagePath;
+      console.log(img);
+      
+      img.onload = function() {
+          self.state.context.drawImage(img, 0, 200);
+      }
+    } else /* remove image */ {
+      console.log('remove image');
+      this.state.context.clearRect(0, 0, this.state.context.canvas.width, this.state.context.canvas.height);
+      
+    }
+    var pathsArrCopy = {};
+    for (var pathID in this.state.paths) {
+        console.log(pathID);
+        pathsArrCopy[pathID] = [];
+        this.state.paths[pathID].forEach(function(position) {
+            pathsArrCopy[pathID].push(position);
+        }, this);
+    }
+    this.state.paths = {};
+    this.changeContextLocally(pathsArrCopy);
+
+    var record = this.state.isColoring ? this.state.dsClient.record.getRecord('test/collab') : this.state.dsClient.record.getRecord('test/easel');
+    this.state.context.clearRect(0, 0, this.state.context.canvas.width, this.state.context.canvas.height);
+    
+    this.setState({
+      isColoring: !this.state.isColoring,
+      currentCanvasImagePath: newCanvasImagePath,
+      modeImagePath: newModeImagePath,
+      deepstreamRecord: record,
+      paths: []
+    });
+    record.whenReady(record => {
+      console.log('record ready');
+      record.subscribe(this.changeContextLocally.bind(self), true);
+    });
+  }
+
   render() {
     var colors = ['red', 'pink', 'yellow', 'orange', 'cyan', 'blue', 'palegreen', 'grey', 'lavendar', 'crimson', 'navy', 'darkgreen'];
+    const modeButton = (
+      <button id="mode-button" onClick={this.changeMode.bind(this)}>
+        <img id="svg" src={this.state.modeImagePath} style={{fill:'#A6E4E7'}}/>
+      </button>
+    );
+    console.log(modeButton);
     return (
         <div>
-          {/* <UserBlob numUsers={this.state.numUsers} /> */}
           <div className="top-container">
-            <Easel selectedColor={this.state.selectedColor} lineWidth={this.state.lineWidth} currentImgPath={this.state.currentImgPath} deepstreamRecord={this.state.deepstreamRecord} resetTimer={this.resetTimer.bind(this)}/>
+            {modeButton}
+            <Easel selectedColor={this.state.selectedColor} changeContext={this.changeContext.bind(this)} lineWidth={this.state.lineWidth} currentCanvasImagePath={this.state.currentCanvasImagePath} deepstreamRecord={this.state.deepstreamRecord} resetTimer={this.resetTimer.bind(this)} changeContextLocally={this.changeContextLocally.bind(this)}f/>
             <UserBlob numUsers={this.state.numUsers} />
           </div>
           <div className="bottom-container">
-            {/* <ColorWheel changeColor={this.changeColor.bind(this)} numColors={12} colors={colors}/> */}
             <ColorGrid changeColor={this.changeColor.bind(this)}/>
             <WidthPicker changeLineWidth={this.changeLineWidth.bind(this)}/>
-            {/* <UserBlob numUsers={this.state.numUsers} /> */}
           </div>
         </div>
     )
