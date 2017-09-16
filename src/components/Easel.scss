@@ -1,23 +1,20 @@
+@media screen and (min-width: 3840px) {
+    #easel {
+        padding: 80px 0px 80px 0px;
+    }
+    canvas {
+        padding: 10px 10px 10px 10px;
+        border: 20px grey outset;
+    }
+}
+
 #easel {
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+
     canvas {
-        // width: 100%;
-        // width: 1080px;
-        // height: 1526px;
-        // height: 100%;
-
-        // display: flex;
-        // justify-content: center;
-        // align-items: center; 
         overflow: hidden;
-    }
-
-    svg, object, img {
-        vertical-align: top;
-        max-width: 60vw;
-        margin-left: 2%;
-        margin-top: 80px;
-        // width: 100%;
     }
 }
 
