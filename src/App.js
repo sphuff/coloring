@@ -113,10 +113,12 @@ class App extends Component {
             // already have all the path information
               continue;
         }
+        console.log('new path');
         this.state.context.beginPath();
         this.state.context.strokeStyle = paths[pathID][0].color;
         this.state.context.lineWidth = paths[pathID][0].lineWidth;
         paths[pathID].forEach(function(position) {
+              console.log('new line');
               this.state.context.lineTo(position.x, position.y);
               this.state.context.stroke();
           }, this);
@@ -190,7 +192,7 @@ class App extends Component {
         <div>
           <div className="top-container">
             {modeButton}
-            <Easel selectedColor={this.state.selectedColor} setContext={this.setContext.bind(this)} lineWidth={this.state.lineWidth} currentCanvasImagePath={this.state.currentCanvasImagePath} deepstreamRecord={this.state.deepstreamRecord} resetTimer={this.resetTimer.bind(this)} changeContextLocally={this.changeContextLocally.bind(this)}f/>
+            <Easel selectedColor={this.state.selectedColor} setContext={this.setContext.bind(this)} lineWidth={this.state.lineWidth} currentCanvasImagePath={this.state.currentCanvasImagePath} deepstreamRecord={this.state.deepstreamRecord} resetTimer={this.resetTimer.bind(this)} changeContextLocally={this.changeContextLocally.bind(this)} shouldOptimize={true}/>
             <UserBlob numUsers={this.state.numUsers} />
           </div>
           <div className="bottom-container">

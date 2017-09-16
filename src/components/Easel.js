@@ -20,11 +20,23 @@ class Easel extends Component {
         });
     }
     
+    getXPos(clientX) {
+        const dist = this.canvasBounds.left - this.easelBounds.left;
+        console.log(dist);
+        return clientX - dist;
+    }
+
+    getYPos(clientY) {
+        const dist = this.canvasBounds.top - this.easelBounds.top;
+        console.log(dist);
+        return clientY - dist;
+    }
+
     touchStart(event) {
         console.log('Touch');
         this.props.resetTimer();
-        const xPos = event.touches[0].clientX;
-        const yPos = event.touches[0].clientY;
+        const xPos = this.getXPos(event.touches[0].clientX);
+        const yPos = this.getYPos(event.touches[0].clientY);
 
         const id = uuid();
         this.currentPath = [];
@@ -35,23 +47,30 @@ class Easel extends Component {
             lineWidth : this.props.lineWidth
         });
         this.currentId = id;
-        this.props.deepstreamRecord.set(id, this.currentPath);
+        if (!this.props.shouldOptimize) {
+            this.props.deepstreamRecord.set(id, this.currentPath);
+        }
     }
 
     touchMove(event) {
-        const xPos = event.touches[0].clientX;
-        const yPos = event.touches[0].clientY;
+        const xPos = this.getXPos(event.touches[0].clientX);
+        const yPos = this.getYPos(event.touches[0].clientY);
         this.currentPath.push({
             x : xPos,
             y : yPos,
             color : this.props.selectedColor,
             lineWidth : this.props.lineWidth
         });
-        this.props.deepstreamRecord.set(this.currentId, this.currentPath);
+        if (!this.props.shouldOptimize) {
+            this.props.deepstreamRecord.set(this.currentId, this.currentPath);
+        }
     }
 
     touchEnd(event) {
         console.log('End');
+        if (this.props.shouldOptimize) {
+            this.props.deepstreamRecord.set(this.currentId, this.currentPath);
+        }
     }
 
     componentDidMount() {
@@ -59,6 +78,8 @@ class Easel extends Component {
         var c=document.getElementById("canvas");
         var ctx=c.getContext("2d");
         this.context = ctx;
+        this.canvasBounds = c.getBoundingClientRect();
+        this.easelBounds = document.getElementById('easel').getBoundingClientRect();
 
         if (this.props.currentCanvasImagePath) {
             var img = new Image();
