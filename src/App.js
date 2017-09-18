@@ -192,7 +192,7 @@ class App extends Component {
         <div>
           <div className="top-container">
             {modeButton}
-            <Easel selectedColor={this.state.selectedColor} setContext={this.setContext.bind(this)} lineWidth={this.state.lineWidth} currentCanvasImagePath={this.state.currentCanvasImagePath} deepstreamRecord={this.state.deepstreamRecord} resetTimer={this.resetTimer.bind(this)} changeContextLocally={this.changeContextLocally.bind(this)} shouldOptimize={true}/>
+            <Easel selectedColor={this.state.selectedColor} setContext={this.setContext.bind(this)} lineWidth={this.state.lineWidth} currentCanvasImagePath={this.state.currentCanvasImagePath} deepstreamRecord={this.state.deepstreamRecord} resetTimer={this.resetTimer.bind(this)} changeContextLocally={this.changeContextLocally.bind(this)} shouldOptimize={false}/>
             <UserBlob numUsers={this.state.numUsers} />
           </div>
           <div className="bottom-container">
